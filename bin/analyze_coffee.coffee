@@ -3,6 +3,7 @@
 config = require('../config')
 writePosts = require('../lib/write_posts_stdout')
 listFetchedGroups = require '../lib/list_fetched_groups'
+summarizeGroup = require '../lib/summarize_group'
 calculateMemberActivity = require '../lib/calculate_member_activity'
 
 program = require('commander')
@@ -13,6 +14,7 @@ program
   .option('-l, --list', 'List groups you\'ve synced with Facebook')
   .option('-a, --member-activity', 'Calculate an activity score for each group member')
   .option('-s, --stdout', 'write downloaded posts to stdout')
+  .option('-S, --summarize', 'summarize group')
   .option('-y, --year [value]', 'Only write to stdout posts created within a year', parseInt)
   .option('-m, --month [value]', 'Only write to stdout posts created within a month (usually paired with a year). Jan = 1, Feb = 2, etc.', parseInt)
   .parse(process.argv)
@@ -21,6 +23,8 @@ if program.list
   listFetchedGroups()
 else if program.memberActivity
   calculateMemberActivity(program)
+else if program.summarize
+  summarizeGroup(program)
 else if program.stdout
   writePosts(program)
 else
